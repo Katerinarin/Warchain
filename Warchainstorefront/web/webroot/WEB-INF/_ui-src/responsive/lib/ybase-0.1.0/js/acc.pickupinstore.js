@@ -322,13 +322,11 @@ ACC.pickupinstore = {
 					}
 					
 					ACC.product.bindToAddToCartStorePickUpForm();
-
 					
-					election = new Datamap({
-				        scope: 'world',
-				        element: $("#colorbox").find("#arcs")[0],
-				        projection: 'mercator'
-				      });
+					
+					if ($("#svg-map-container").length) {
+						ACC.supplychain.initD3Map("#colorbox #svg-map-container");
+					}
 				}
 
 			});
@@ -427,57 +425,40 @@ ACC.pickupinstore = {
 			$("#colorbox #cboxTitle .headline-inner").addClass('hidden-xs hidden-sm');
 			$("#colorbox #cboxTitle .back-to-storelist").removeClass('hidden-xs hidden-sm');
 			
-			var presidentialTrips = [];
+			var supplyChain = [];
+			var selectedStore = $(this);
 			
-			if (navigator.geolocation) {
-				var selectedStore = $(this);
-		navigator.geolocation.getCurrentPosition(function(position) {
+			if (navigator.geolocation) { 																				//checking if user's geolocation is turn or or not
+				navigator.geolocation.getCurrentPosition(function(position) { 											//getting user's current position
+					
+					if (position.coords.latitude != "" && position.coords.longitude != "") { 							//pushing user's position coordinates
+						supplyChain.push([position.coords.longitude, position.coords.latitude]);
+					}
+					if (selectedStore.data("store-lat") != "" && selectedStore.data("store-long") != "") { 				//pushing store's coordinates
+						supplyChain.push([selectedStore.data("store-long"), selectedStore.data("store-lat")]);
+					}
+					if (selectedStore.data("warehouse-lat") != "" && selectedStore.data("warehouse-long") != "") { 		//pushing warehouse coordinates
+						supplyChain.push([selectedStore.data("warehouse-long"), selectedStore.data("warehouse-lat")]);
+					}
+					
 
-					  presidentialTrips = [
-			                {
-			                    origin: {
-			                        latitude: position.coords.latitude,
-			                        longitude: position.coords.longitude
-			                    },
-			                    destination: {
-			                    	latitude: selectedStore.data("store-lat"),
-			                        longitude: selectedStore.data("store-long"),
-			                    }
-			                },
-			                        {
-			                    origin: {
-			                        latitude: selectedStore.data("store-lat"),
-			                        longitude: selectedStore.data("store-long"),
-			                    },
-			                    destination: {
-			                        latitude: selectedStore.data("warehouse-lat"),
-			                        longitude: selectedStore.data("warehouse-long")
-			                    }
-
-			                }
-					    ];
-						if (presidentialTrips !== null) {
-							election.arc( presidentialTrips, {strokeWidth: 3, strokeColor: "EC7205"});
-						    
-						}
 				});
 			} else {
-				presidentialTrips = [
-					{
-	                    origin: {
-	                        latitude: $(this).data("store-lat"),
-	                        longitude: $(this).data("store-long"),
-	                    },
-	                    destination: {
-	                        latitude: $(this).data("warehouse-lat"),
-	                        longitude: $(this).data("warehouse-long")
-	                    }
-	                }
-			    ];
-				if (presidentialTrips !== null) {
-					election.arc( presidentialTrips, {strokeWidth: 2, strokeColor: "18FC4D"});
+				
+				supplyChain = [[selectedStore.data("store-long"), selectedStore.data("store-lat")],
+							   [selectedStore.data("warehouse-long"), selectedStore.data("warehouse-lat")]];
+				
+			}
+			
+			if (supplyChain !== null) {//если есть данные, то рисуется карта
+				ACC.supplychain.waitForMapInitToPerformAction(function(){ //ждем пока загрузится карта, и выполняем след действия
+					ACC.supplychain.clearMapFromSupplyChains(); //очищаем карту
 					
-				}
+					arcs = svg.append('g').attr("class", "supply-chain arcs");//добавляем граф коллекцию, которая хранит в себе арки и точки
+					points = svg.append('g').attr("class", "supply-chain points");
+					
+					setTimeout(function(){ACC.supplychain.chainLoop(1, supplyChain, 3000);}, 100);
+				});
 			}
 		})
 

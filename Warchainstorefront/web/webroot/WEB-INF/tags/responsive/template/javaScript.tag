@@ -93,16 +93,13 @@
 		    <script type="text/javascript" src="${addOnJavaScript}"></script>
 		</c:forEach>
         
-      <%-- dv3 --%>
-     <%--  <script type="text/javascript" src="${commonResourcePath}/js/d3.v2.js"></script>--%> 
-      <%-- <script type="text/javascript" src="${commonResourcePath}/js/map.js"></script> --%>
+      <%-- d3 --%>
+      <script type="text/javascript" src="${commonResourcePath}/js/d3.v4.js"></script>
+      <script type="text/javascript" src="${commonResourcePath}/js/topojson.v1.min.js"></script>
+      <script type="text/javascript" src="${commonResourcePath}/js/acc.supplychain.js"></script>
       
-      <%--datamap --%>
-     <script type="text/javascript" src="${commonResourcePath}/js/topojson.min.js"></script>
-     <script type="text/javascript" src="${commonResourcePath}/js/d3.min.js"></script>
-     <script type="text/javascript" src="${commonResourcePath}/js/datamaps.world.js"></script>
-     <script type="text/javascript" src="${commonResourcePath}/js/d3.v3.js"></script>
-     <script type="text/javascript" src="${commonResourcePath}/js/datamaps.arcs.js"></script>
+      
+
 
 		
 	</c:otherwise>

@@ -8,9 +8,9 @@
 <c:url var="addToCartToPickupInStoreUrl" value="/store-pickup/cart/add"/>
 
 <div class="display-details">
-
-<button onclick="">Details</button>
-    <div id="arcs" style="position: relative; width: 380px; height: 300px; pointer-events:none; "></div>
+    <svg id="svg-map-container" width="380" height="250"></svg>
+ 
+    <!-- <div id="arcs" style="position: relative; width: 380px; height: 300px; pointer-events:none; "></div> -->
     
 	<div class="store-tabs js-pickup-tabs">
 		<div class="tabhead" aria-label="<spring:theme code="storeDetails.title"/>">
