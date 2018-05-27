@@ -64,13 +64,10 @@ INSERT_UPDATE Vendor;code[unique=true];name
 
 # Warehouse
 INSERT_UPDATE Warehouse;code[unique=true];name;vendor(code)[default=default];default[default=true];lat;long
-;default;Default Warehouse;
-;warehouse_s;Warehouse South;
-;warehouse_e;Warehouse East;
-;warehouse_w;Warehouse West;
-;warehouse_n;Warehouse North;
-;warehouse_z;Warehouse Zebra;
-;warehouse_x;Warehouse Elephant;
+;warehouse_s;Warehouse South;;;27.05912578;27.46582031
+;warehouse_e;Warehouse East;;;35.46066995;127.44140625
+;warehouse_w;Warehouse West;;;38.27268854;-4.74609375
+;warehouse_n;Warehouse North;;;67.87554135;27.59765625
 
 
 
